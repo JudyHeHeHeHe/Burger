@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import Layout from "./hoc/Layout/Layout";
 import BurderBuilder from './containers/BurgerBuilder/BurgerBuilder';
+import Checkout from './containers/Checkout/Checkout';
+import {Route} from 'react-router-dom';
+import Orders from './containers/Orders/Orders'
 
 
 class App extends Component {
@@ -8,7 +11,9 @@ class App extends Component {
     return (
       <div>
         <Layout>
-          <BurderBuilder/>
+          <Route path="/" exact component={BurderBuilder} />
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/orders" component={Orders}/>
         </Layout>
       </div>
     )
