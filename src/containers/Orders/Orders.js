@@ -7,11 +7,26 @@ import {connect} from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 
+
 class Orders extends Component {
 
 	componentDidMount(){
 		this.props.onFetchInit();
 	}
+
+  
+	componentDidUpdate(prevState){
+		
+		if (prevState.orders !== this.props.orders && this.props.clicked) {
+			this.props.onDisableButtons();
+		}
+	}
+
+
+ cancelSubmitOrders = () => {
+ 	this.props.history.push('/');
+ }
+
 
 	render (){
 		let orders = <Spinner />
@@ -22,11 +37,14 @@ class Orders extends Component {
 			))
 		}
 
-   let buttons = null;
 
 		return (
 			<div>
 				{orders}	
+				<div style={{margin: '0 auto', width: '200px', padding: '30px'}}>
+			 		<button disabled={this.props.disabled} style={{margin: '0 10px', padding: '0 10px'}} onClick={this.cancelSubmitOrders}>Cancel</button>
+			 		<button disabled={this.props.disabled} style={{margin: '0 10px', padding: '0 10px'}} onClick={() => this.props.submitOrders(this.props.orders)}>Submit</button>
+			 	</div>
 			</div>
 		)
 	}
@@ -35,7 +53,9 @@ class Orders extends Component {
 const mapStateToProps = state => {
 	return {
 		orders: state.order.orders,
-	  loading: state.order.loading
+	  loading: state.order.loading,
+	  disabled: state.order.disabled,
+	  clicked: state.order.clicked
 	}
 	
 }
@@ -43,7 +63,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onFetchInit: () => dispatch(actions.fetchOrders()),
-		onDeleteOrder: (id) => dispatch(actions.deleteOrder(id))
+		onDeleteOrder: (id) => dispatch(actions.deleteOrder(id)),
+		onDisableButtons: () => dispatch(actions.disableButtons()),
+		submitOrders: (orders) => dispatch(actions.submitOrders(orders))
 	}
 }
 
