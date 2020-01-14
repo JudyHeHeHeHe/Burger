@@ -91,23 +91,9 @@ export const disableButtons = () => {
 	}
 }
 
-export const getUpdatedOrders = (orders) => {
-	return {
-		types: actionTypes.GET_UPDATED_ORDERS,
-		orders: orders
-	}
-}
 
-export const submitOrders = (orders) => {
-	return dispatch => {
-		axios.put('/orders.json', orders)
-		.then(res => {
-			console.log('yay')
-		}).catch(error => {
-			alert('error')
-		})
-	}
-}
+
+
 
 
 
