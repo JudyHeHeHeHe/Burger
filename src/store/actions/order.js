@@ -85,17 +85,29 @@ export const deleteOrder = (id) => {
 	}
 }
 
-// export const updateOrderList = (orderData, id) => {
-// 	return dispatch => {
-// 		dispatch(deleteOrder());
-// 		axios.post('/orders.json', orderData)
-// 		.then(res => {
-			
-// 		}).catch(error => {
-// 			console.log(error);
-// 		})
-// 	}
-// }
+export const disableButtons = () => {
+	return {
+		type: actionTypes.DISABLE_BUTTONS
+	}
+}
+
+export const getUpdatedOrders = (orders) => {
+	return {
+		types: actionTypes.GET_UPDATED_ORDERS,
+		orders: orders
+	}
+}
+
+export const submitOrders = (orders) => {
+	return dispatch => {
+		axios.put('/orders.json', orders)
+		.then(res => {
+			console.log('yay')
+		}).catch(error => {
+			alert('error')
+		})
+	}
+}
 
 
 

@@ -5,7 +5,8 @@ import {updateObject} from '../utility'
 const initialState = {
 	orders: [],
 	loading: false,
-	purchased: false
+	purchased: false,
+	disabled: true
 }
 
 const purchaseBurgerSuccess = (state, action) => {
@@ -14,7 +15,8 @@ const purchaseBurgerSuccess = (state, action) => {
 	const content = {
 		loading: false,
 		purchased: true,
-		order: state.orders.concat(newOrder)
+		order: state.orders.concat(newOrder),
+		clicked: false,
 	}
 
   return updateObject(state, content)
@@ -46,8 +48,17 @@ const fetchOrdersSuccess = (state, action) => {
 
 const deleteOrder = (state, action) => {
 	const blah = state.orders.filter(order => order.id !== action.id);
-	return updateObject(state, {orders: blah})
+	return updateObject(state, {orders: blah, clicked: true})
 }
+
+const disableButtons = (state, action) => {
+	return updateObject(state, {disabled: false})
+}
+
+const getUpdatedOrders = (state, action) => {
+	return updateObject(state, {orders: action.orders})
+}
+
 
 const reducer = (state = initialState, action) => {
 	switch(action.type) {
@@ -61,6 +72,8 @@ const reducer = (state = initialState, action) => {
 	  case actionTypes.FETCH_ORDERS_FAIL: return fetchOrdersFail(state, action)
 
 	  case actionTypes.DELETE_ORDER: return deleteOrder(state, action)
+	  case actionTypes.DISABLE_BUTTONS: return disableButtons(state, action)
+	  case actionTypes.GET_UPDATED_ORDERS: return getUpdatedOrders(state, action)
 	   
 		default: return state;
 	}
