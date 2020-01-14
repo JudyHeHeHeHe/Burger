@@ -59,7 +59,6 @@ export const fetchOrdersStart = () => {
 	return {
 		type: actionTypes.FETCH_ORDERS_START,
 	}
-
 }
 
 export const fetchOrders = () => {
@@ -78,6 +77,25 @@ export const fetchOrders = () => {
 		})
 	}
 }
+
+export const deleteOrder = (id) => {
+	return {
+		type: actionTypes.DELETE_ORDER,
+		id: id
+	}
+}
+
+// export const updateOrderList = (orderData, id) => {
+// 	return dispatch => {
+// 		dispatch(deleteOrder());
+// 		axios.post('/orders.json', orderData)
+// 		.then(res => {
+			
+// 		}).catch(error => {
+// 			console.log(error);
+// 		})
+// 	}
+// }
 
 
 
