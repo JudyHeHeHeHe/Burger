@@ -55,11 +55,6 @@ const disableButtons = (state, action) => {
 	return updateObject(state, {disabled: false})
 }
 
-const getUpdatedOrders = (state, action) => {
-	return updateObject(state, {orders: action.orders})
-}
-
-
 const reducer = (state = initialState, action) => {
 	switch(action.type) {
 		case actionTypes.PURCHASE_INIT: return purchaseInit(state, action)
@@ -73,7 +68,6 @@ const reducer = (state = initialState, action) => {
 
 	  case actionTypes.DELETE_ORDER: return deleteOrder(state, action)
 	  case actionTypes.DISABLE_BUTTONS: return disableButtons(state, action)
-	  case actionTypes.GET_UPDATED_ORDERS: return getUpdatedOrders(state, action)
 	   
 		default: return state;
 	}

@@ -4,6 +4,7 @@ import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux'; 
+import {Redirect} from 'react-router-dom';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 
@@ -27,6 +28,15 @@ class Orders extends Component {
  	this.props.history.push('/');
  }
 
+ submitOrders = (orders) => {
+ 	axios.put('/orders.json', orders)
+		.then(res => {
+			this.props.history.push('/');
+		}).catch(error => {
+			alert('error')
+		})
+
+ } 
 
 	render (){
 		let orders = <Spinner />
@@ -43,7 +53,7 @@ class Orders extends Component {
 				{orders}	
 				<div style={{margin: '0 auto', width: '200px', padding: '30px'}}>
 			 		<button disabled={this.props.disabled} style={{margin: '0 10px', padding: '0 10px'}} onClick={this.cancelSubmitOrders}>Cancel</button>
-			 		<button disabled={this.props.disabled} style={{margin: '0 10px', padding: '0 10px'}} onClick={() => this.props.submitOrders(this.props.orders)}>Submit</button>
+			 		<button disabled={this.props.disabled} style={{margin: '0 10px', padding: '0 10px'}} onClick={() => this.submitOrders(this.props.orders)}>Submit</button>
 			 	</div>
 			</div>
 		)
@@ -65,7 +75,6 @@ const mapDispatchToProps = dispatch => {
 		onFetchInit: () => dispatch(actions.fetchOrders()),
 		onDeleteOrder: (id) => dispatch(actions.deleteOrder(id)),
 		onDisableButtons: () => dispatch(actions.disableButtons()),
-		submitOrders: (orders) => dispatch(actions.submitOrders(orders))
 	}
 }
 
