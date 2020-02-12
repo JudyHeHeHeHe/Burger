@@ -9,6 +9,7 @@ import Input from '../../../components/UI/Input/Input';
 
 import WithErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'; 
 import * as actions from '../../../store/actions/index'
+import {formValidation} from '../../../shared/utility'
 
 class ContactData extends Component {
 	state = {
@@ -110,29 +111,13 @@ class ContactData extends Component {
 		const order = {
 			ingredients: this.props.ings,
 			price: this.props.price,
-			orderInfo: formData
+			orderInfo: formData,
+			userId: this.props.userId
 		}
 
-		this.props.onOrderBurger(order);
+		this.props.onOrderBurger(order, this.props.token);
 	}
 
-	formValidation = (value, rules) => {
-		let validity = true;
-
-		if(rules.required && validity) {
-			validity = value.trim() !== '';
-		}
-
-		if(rules.minLength && validity) {
-			validity = value.length >= rules.minLength
-		}
-
-		if(rules.maxLength && validity) {
-			validity = value.length <= rules.maxLength
-		}
-
-		return validity;
-	}
 
 	inputChangedHandler = (e, inputIdentifier) => {
 
@@ -143,7 +128,7 @@ class ContactData extends Component {
 		updatedFormElement.value = e.target.value;
 		updatedFormElement.touched = true;
 
-		updatedFormElement.isValid = this.formValidation(updatedFormElement.value, updatedFormElement.rules);
+		updatedFormElement.isValid = formValidation(updatedFormElement.value, updatedFormElement.rules);
 
 		updatedOrderForm[inputIdentifier] = updatedFormElement;
 
@@ -192,13 +177,15 @@ const mapStateToProps = state => {
 	return {
 		ings: state.burgerBuilder.ingredients,
 		price: state.burgerBuilder.totalPrice,
-		loading: state.order.loading
+		loading: state.order.loading,
+		token: state.auth.idToken,
+		userId: state.auth.userId
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+		onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
 	}
 }
 

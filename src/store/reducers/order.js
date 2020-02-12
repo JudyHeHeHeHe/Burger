@@ -23,11 +23,11 @@ const purchaseBurgerSuccess = (state, action) => {
 }
 
 const purchaseInit = (state, action) => {
-	return updateObject(state, {loading: false})
+	return updateObject(state, {purchased: false})
 }
 
 const purchaseBurgerStart = (state, action) => {
-	return updateObject(state, {loading: false})
+	return updateObject(state, {loading: true})
 }
 
 const purchaseBurgerFail = (state, action) => {

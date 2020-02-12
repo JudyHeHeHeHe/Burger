@@ -4,7 +4,6 @@ import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import {connect} from 'react-redux'; 
-import {Redirect} from 'react-router-dom';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
 
@@ -12,7 +11,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 class Orders extends Component {
 
 	componentDidMount(){
-		this.props.onFetchInit();
+		this.props.onFetchInit(this.props.token, this.props.userId);
 	}
 
   
@@ -65,14 +64,16 @@ const mapStateToProps = state => {
 		orders: state.order.orders,
 	  loading: state.order.loading,
 	  disabled: state.order.disabled,
-	  clicked: state.order.clicked
+	  clicked: state.order.clicked,
+	  token: state.auth.idToken,
+	  userId: state.auth.userId
 	}
 	
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onFetchInit: () => dispatch(actions.fetchOrders()),
+		onFetchInit: (token, userId) => dispatch(actions.fetchOrders(token, userId)),
 		onDeleteOrder: (id) => dispatch(actions.deleteOrder(id)),
 		onDisableButtons: () => dispatch(actions.disableButtons()),
 	}
