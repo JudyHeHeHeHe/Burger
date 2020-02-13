@@ -6,6 +6,7 @@ const initialState = {
 	idToken: null,
 	userId: null,
 	error: null,
+	loading: false,
 	authRedirectPath: '/'
 }
 
